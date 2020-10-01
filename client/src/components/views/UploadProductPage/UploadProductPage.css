@@ -1,0 +1,13 @@
+.uploadProductPage__container {
+    max-width: 70rem;
+    margin: 2rem auto;
+}
+
+.uploadProductPage__holder {
+}
+
+.uploadProductPage__holder h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
