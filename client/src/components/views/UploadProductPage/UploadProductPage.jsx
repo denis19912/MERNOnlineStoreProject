@@ -47,32 +47,6 @@ function UploadProductPage(props) {
         setImages(newImages)
     }
     const onSubmit = (event) => {
-        event.preventDefault();
-
-
-        if (!TitleValue || !DescriptionValue || !PriceValue ||
-            !ContinentValue || !Images) {
-            return alert('fill all the fields first!')
-        }
-
-        const variables = {
-            writer: props.user.userData._id,
-            title: TitleValue,
-            description: DescriptionValue,
-            price: PriceValue,
-            images: Images,
-            continents: ContinentValue,
-        }
-
-        Axios.post('/api/product/uploadProduct', variables)
-            .then(response => {
-                if (response.data.success) {
-                    alert('Product Successfully Uploaded')
-                    props.history.push('/')
-                } else {
-                    alert('Failed to upload Product')
-                }
-            })
 
     }
 

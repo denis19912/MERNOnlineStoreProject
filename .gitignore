@@ -1,6 +1,6 @@
 /node_modules
 /build
-
+/uploads
 dev.js
 
 
@@ -12,3 +12,4 @@ yarn-debug.kog*
 yarn-error.log*
 
 .vscode
+
