@@ -5,6 +5,7 @@ import Axios from 'axios';
 import './LandingPage.css';
 import Meta from 'antd/lib/card/Meta';
 import ImageSlider from '../../utils/ImageSlider/ImageSlider';
+import CheckBox from './Sections/CheckBox';
 
 
 function LandingPage() {
@@ -60,6 +61,10 @@ function LandingPage() {
         </Col>)
     });
 
+    const handleFilters = (filters, category) => {
+        return true;
+    }
+
 
     return (
         <div className="landingPage__container">
@@ -68,6 +73,9 @@ function LandingPage() {
             </div>
 
             {/* {Filter} */}
+            <CheckBox
+                handleFilters={filters => handleFilters(filters, "continets")}
+            />
             {/* {Search} */}
 
             {Products.length === 0 ?
