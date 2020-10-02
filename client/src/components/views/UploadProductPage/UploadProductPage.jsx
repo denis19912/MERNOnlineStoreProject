@@ -59,7 +59,7 @@ function UploadProductPage(props) {
             description: DescriptionValue,
             price: PriceValue,
             images: Images,
-            continent: ContinentValue
+            continents: ContinentValue
         }
         Axios.post('/api/product/uploadProduct', variables)
             .then(response => {

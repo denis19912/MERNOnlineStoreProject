@@ -13,6 +13,7 @@ function LandingPage() {
     const [Skip, setSkip] = useState(0);
     const [Limit, setLimit] = useState(6);
     const [PostSize, setPostSize] = useState(0);
+    const [Filters, setFilters] = useState({ continets: [], price: [] });
 
 
     useEffect(() => {
@@ -26,9 +27,12 @@ function LandingPage() {
     const getProducts = (variables) => {
         Axios.post('/api/product/getProducts', variables)
             .then(response => {
-                console.log(response);
                 if (response.data.success) {
-                    setProducts([...Products, ...response.data.products])
+                    if (variables.loadMore) {
+                        setProducts([...Products, ...response.data.products])
+                    } else {
+                        setProducts([...response.data.products])
+                    }
                     setPostSize(response.data.postSize);
                 } else {
                     alert("Failed to fetch product data");
@@ -42,6 +46,7 @@ function LandingPage() {
         const variables = {
             skip: skip,
             limit: Limit,
+            loadMore: true,
         }
         getProducts(variables);
         setSkip(skip);
@@ -61,8 +66,28 @@ function LandingPage() {
         </Col>)
     });
 
+    const showFilterResults = (filters) => {
+        const variables = {
+            skip: 0,
+            limit: Limit,
+            filters: filters
+        };
+
+        getProducts(variables);
+        setSkip(0);
+    }
+
     const handleFilters = (filters, category) => {
-        return true;
+        const newFilters = { ...Filters };
+
+        newFilters[category] = filters;
+
+        if (category === "price") {
+
+        }
+
+        showFilterResults(newFilters);
+        setFilters(newFilters)
     }
 
 
@@ -74,7 +99,7 @@ function LandingPage() {
 
             {/* {Filter} */}
             <CheckBox
-                handleFilters={filters => handleFilters(filters, "continets")}
+                handleFilters={filters => handleFilters(filters, "continents")}
             />
             {/* {Search} */}
 

@@ -31,9 +31,9 @@ function CheckBox(props) {
         Continents.map((value, index) => (
             <React.Fragment key={index}>
                 <Checkbox
-                    onChange={() => handleToggle(value.id)}
+                    onChange={() => handleToggle(value._id)}
                     type="checkbox"
-                    checked />
+                    checked={Checked.indexOf(value._id) === -1 ? false : true} />
                 <span>{value.name}</span>
             </React.Fragment>
         ))
