@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import { Typography, Button, Form, message, Input, Icon } from 'antd';
-import './UploadProductPage.css';
+import FileUpload from '../../utils/FileUpload'
+import Axios from 'axios';
 
+import "./UploadProductPage.css";
 const { Title } = Typography;
 const { TextArea } = Input;
-
 
 const Continents = [
     { key: 1, value: "Africa" },
@@ -13,96 +14,121 @@ const Continents = [
     { key: 4, value: "North America" },
     { key: 5, value: "South America" },
     { key: 6, value: "Australia" },
-    { key: 7, value: "Antarctica" },
+    { key: 7, value: "Antarctica" }
 ]
 
-const UploadProductPage = () => {
+function UploadProductPage(props) {
 
-    const [titleValue, setTitleValue] = useState("");
-    const [descriptionValue, setDescriptionValue] = useState("");
-    const [priceValue, setPriceValue] = useState(0);
-    const [continentValue, setConteinentValue] = useState(1);
+    const [TitleValue, setTitleValue] = useState("")
+    const [DescriptionValue, setDescriptionValue] = useState("")
+    const [PriceValue, setPriceValue] = useState(0)
+    const [ContinentValue, setContinentValue] = useState(1)
 
-    const onTitleChange = (e) => {
-        setTitleValue(e.currentTarget.value)
+    const [Images, setImages] = useState([])
+
+
+    const onTitleChange = (event) => {
+        setTitleValue(event.currentTarget.value)
     }
 
-    const onDescriptionChange = (e) => {
-        setDescriptionValue(e.currentTarget.value)
+    const onDescriptionChange = (event) => {
+        setDescriptionValue(event.currentTarget.value)
     }
 
-    const onPriceChange = (e) => {
-        setPriceValue(e.currentTarget.value)
+    const onPriceChange = (event) => {
+        setPriceValue(event.currentTarget.value)
     }
 
-    const onContinentChange = (e) => {
-        setConteinentValue(e.currentTarget.value)
+    const onContinentsSelectChange = (event) => {
+        setContinentValue(event.currentTarget.value)
+    }
+
+    const updateImages = (newImages) => {
+        setImages(newImages)
+    }
+    const onSubmit = (event) => {
+        event.preventDefault();
+
+
+        if (!TitleValue || !DescriptionValue || !PriceValue ||
+            !ContinentValue || !Images) {
+            return alert('fill all the fields first!')
+        }
+
+        const variables = {
+            writer: props.user.userData._id,
+            title: TitleValue,
+            description: DescriptionValue,
+            price: PriceValue,
+            images: Images,
+            continents: ContinentValue,
+        }
+
+        Axios.post('/api/product/uploadProduct', variables)
+            .then(response => {
+                if (response.data.success) {
+                    alert('Product Successfully Uploaded')
+                    props.history.push('/')
+                } else {
+                    alert('Failed to upload Product')
+                }
+            })
+
     }
 
     return (
         <div className="uploadProductPage__container">
             <div className="uploadProductPage__holder">
-                <Title level={2}>Upload Travel Product</Title>
+                <Title level={2}> Upload Travel Product</Title>
             </div>
 
-            <Form onSubmit>
-                {/** Dropzone */}
+
+            <Form onSubmit={onSubmit} >
+
+                {/* DropZone */}
+                <FileUpload refreshFunction={updateImages} />
 
                 <br />
                 <br />
-                <label htmlFor="title">Title</label>
+                <label>Title</label>
                 <Input
                     onChange={onTitleChange}
-                    value={titleValue}
-                    id="title"
+                    value={TitleValue}
                 />
-
                 <br />
                 <br />
-                <label htmlFor="description">Description</label>
+                <label>Description</label>
                 <TextArea
                     onChange={onDescriptionChange}
-                    value={descriptionValue}
-                    id="description"
+                    value={DescriptionValue}
                 />
-
                 <br />
                 <br />
-                <label htmlFor="price">Price($)</label>
+                <label>Price($)</label>
                 <Input
                     onChange={onPriceChange}
-                    value={priceValue}
-                    id="description"
-                    tpye="price"
+                    value={PriceValue}
+                    type="number"
                 />
-
-                <br />
-                <br />
-
-                <select
-                    onChange={onContinentChange}
-
-                >
+                <br /><br />
+                <select onChange={onContinentsSelectChange} value={ContinentValue}>
                     {Continents.map(item => (
-                        <option
-                            key={item.key}
-                            value={item.key}
-                        >
-                            {item.value}
-                        </option>
+                        <option key={item.key} value={item.key}>{item.value} </option>
                     ))}
                 </select>
+                <br />
+                <br />
 
-                <br />
-                <br />
                 <Button
-
+                    onClick={onSubmit}
                 >
                     Submit
                 </Button>
+
             </Form>
+
         </div>
-    );
+    )
 }
 
-export default UploadProductPage;
+export default UploadProductPage

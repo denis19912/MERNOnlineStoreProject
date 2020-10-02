@@ -1,0 +1,24 @@
+.dropzone__container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.dropzone__dropArea {
+    width: 30rem;
+    height: 24rem;
+    border: 1px solid lightgray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dropzone__dropArea i {
+    font-size: 3rem;
+}
+
+.dropzone__showCase {
+    display: flex;
+    width: 35rem;
+    height: 24rem;
+    overflow: scroll;
+}
