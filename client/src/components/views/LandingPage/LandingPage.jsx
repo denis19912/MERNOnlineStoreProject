@@ -6,6 +6,8 @@ import './LandingPage.css';
 import Meta from 'antd/lib/card/Meta';
 import ImageSlider from '../../utils/ImageSlider/ImageSlider';
 import CheckBox from './Sections/CheckBox';
+import RadioBox from './Sections/RadioBox';
+import FileUpload from '../../utils/FileUpload';
 
 
 function LandingPage() {
@@ -14,6 +16,7 @@ function LandingPage() {
     const [Limit, setLimit] = useState(6);
     const [PostSize, setPostSize] = useState(0);
     const [Filters, setFilters] = useState({ continets: [], price: [] });
+    const [FilterOpen, setFilterOpen] = useState(['0']);
 
 
     useEffect(() => {
@@ -97,11 +100,20 @@ function LandingPage() {
                 <h2>Let's Travel Anywhere <Icon type="rocket" /> </h2>
             </div>
 
-            {/* {Filter} */}
-            <CheckBox
-                handleFilters={filters => handleFilters(filters, "continents")}
-            />
-            {/* {Search} */}
+            <Row gutter={[16, 16]}>
+                <Col lg={12} xs={24}>
+                    <CheckBox
+                        handleFilters={filters => handleFilters(filters, "continents")}
+                        FilterOpen={FilterOpen}
+                    />
+                </Col>
+                <Col lg={12} xs={24}>
+                    <RadioBox
+                        handleFilters={filters => handleFilters(filters, "price")}
+                        FilterOpen={FilterOpen}
+                    />
+                </Col>
+            </Row>
 
             {Products.length === 0 ?
                 <div className="landingPage__noProducts">
