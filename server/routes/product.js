@@ -28,6 +28,9 @@ var upload = multer({ storage: storage }).single("file")
 //             Product
 //=================================
 
+/**
+ * Upload image to server.
+ */
 router.post("/uploadImage", auth, (req, res) => {
 
     upload(req, res, err => {
@@ -37,6 +40,19 @@ router.post("/uploadImage", auth, (req, res) => {
         return res.json({ success: true, image: res.req.file.path, fileName: res.req.file.filename })
     })
 
+});
+
+/**
+ * Save to database.
+ */
+router.post("/uploadProduct", auth, (req, res) => {
+
+    // Save all data to database
+    const product = new Product(req.body)
+    product.save((err) => {
+        if (err) return res.status(400).json({ success: false, err })
+        return res.status(200).json({ success: true });
+    })
 });
 
 

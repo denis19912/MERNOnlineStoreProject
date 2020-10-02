@@ -47,7 +47,25 @@ function UploadProductPage(props) {
         setImages(newImages)
     }
     const onSubmit = (event) => {
+        event.preventDefault();
 
+        const variables = {
+            witer: props.user.userData._id,
+            title: TitleValue,
+            description: DescriptionValue,
+            price: PriceValue,
+            images: Images,
+            continent: ContinentValue
+        }
+        Axios.post('/api/product/uploadProduct', variables)
+            .then(response => {
+                if (response.data.success) {
+                    alert("Product successfully uploaded");
+                    props.history.push("/");
+                } else {
+                    alert("Failed to upload Product");
+                }
+            })
     }
 
     return (
