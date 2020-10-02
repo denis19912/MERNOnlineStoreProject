@@ -51,8 +51,8 @@ function FileUpload(props) {
                     <div className={"dropzone__dropArea"}
                         {...getRootProps()}
                     >
-                        {console.log('getRootProps', { ...getRootProps() })}
-                        {console.log('getInputProps', { ...getInputProps() })}
+                        {/* {console.log('getRootProps', { ...getRootProps() })}
+                        {console.log('getInputProps', { ...getInputProps() })} */}
                         <input {...getInputProps()} />
                         <Icon type="plus" style={{ fontSize: '3rem' }} />
 

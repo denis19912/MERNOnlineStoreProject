@@ -49,6 +49,10 @@ function UploadProductPage(props) {
     const onSubmit = (event) => {
         event.preventDefault();
 
+        if (!TitleValue || !DescriptionValue || !PriceValue || !ContinentValue || !Images) {
+            return alert("Please fill all field before saving!");
+        }
+
         const variables = {
             witer: props.user.userData._id,
             title: TitleValue,
