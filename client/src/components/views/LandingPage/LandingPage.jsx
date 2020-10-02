@@ -7,6 +7,7 @@ import Meta from 'antd/lib/card/Meta';
 import ImageSlider from '../../utils/ImageSlider/ImageSlider';
 import CheckBox from './Sections/CheckBox';
 import RadioBox from './Sections/RadioBox';
+import { continents, price } from './Sections/Datas';
 import FileUpload from '../../utils/FileUpload';
 
 
@@ -15,7 +16,7 @@ function LandingPage() {
     const [Skip, setSkip] = useState(0);
     const [Limit, setLimit] = useState(6);
     const [PostSize, setPostSize] = useState(0);
-    const [Filters, setFilters] = useState({ continets: [], price: [] });
+    const [Filters, setFilters] = useState({ continents: [], price: [] });
     const [FilterOpen, setFilterOpen] = useState(['0']);
 
 
@@ -80,15 +81,38 @@ function LandingPage() {
         setSkip(0);
     }
 
+    /**
+     * Converts number key to array which has prices in 
+     * for easier filtering.
+     */
+    const handlePrice = (value) => {
+        const data = price;
+        let array = [];
+
+        for (let key in data) {
+
+            if (data[key]._id === parseInt(value, 10)) {
+                array = data[key].array;
+            }
+        }
+        console.log('array', array)
+        return array
+    }
+
+    /**
+     * Handles continents and price filters.
+     */
     const handleFilters = (filters, category) => {
         const newFilters = { ...Filters };
 
         newFilters[category] = filters;
 
         if (category === "price") {
-
+            let priceValues = handlePrice(filters);
+            newFilters[category] = priceValues;
         }
 
+        console.log(newFilters);
         showFilterResults(newFilters);
         setFilters(newFilters)
     }
@@ -105,12 +129,14 @@ function LandingPage() {
                     <CheckBox
                         handleFilters={filters => handleFilters(filters, "continents")}
                         FilterOpen={FilterOpen}
+                        list={continents}
                     />
                 </Col>
                 <Col lg={12} xs={24}>
                     <RadioBox
                         handleFilters={filters => handleFilters(filters, "price")}
                         FilterOpen={FilterOpen}
+                        list={price}
                     />
                 </Col>
             </Row>
