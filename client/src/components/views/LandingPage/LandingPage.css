@@ -1,0 +1,24 @@
+.landingPage__container {
+    width: 75%;
+    margin: 3rem auto;
+}
+
+.landingPage__title {
+    text-align: center;
+}
+
+.landingPage__noProducts {
+    display: flex;
+    height: 30rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.landingPage__showProducts {
+}
+
+.landingPage__loadMore {
+    display: flex;
+    justify-content: center;
+    margin: 3rem auto;
+}
