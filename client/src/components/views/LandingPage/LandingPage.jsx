@@ -5,20 +5,46 @@ import Axios from 'axios';
 import './LandingPage.css';
 import Meta from 'antd/lib/card/Meta';
 import ImageSlider from '../../utils/ImageSlider/ImageSlider';
+
+
 function LandingPage() {
     const [Products, setProducts] = useState([]);
-    useEffect(() => {
-        Axios.post('/api/product/getProducts')
-            .then(response => {
-                if (response.data.success) {
-                    setProducts(response.data.products);
+    const [Skip, setSkip] = useState(0);
+    const [Limit, setLimit] = useState(6);
+    const [PostSize, setPostSize] = useState(0);
 
-                    console.log(response.data.products)
+
+    useEffect(() => {
+        const variables = {
+            skip: Skip,
+            limit: Limit,
+        }
+        getProducts(variables);
+    }, [])
+
+    const getProducts = (variables) => {
+        Axios.post('/api/product/getProducts', variables)
+            .then(response => {
+                console.log(response);
+                if (response.data.success) {
+                    setProducts([...Products, ...response.data.products])
+                    setPostSize(response.data.postSize);
                 } else {
                     alert("Failed to fetch product data");
                 }
             })
-    }, [])
+    }
+
+    const onLoadMore = () => {
+        let skip = Skip + Limit;
+
+        const variables = {
+            skip: skip,
+            limit: Limit,
+        }
+        getProducts(variables);
+        setSkip(skip);
+    }
 
     const renderCards = Products.map((product, index) => {
         return (<Col lg={6} md={8} xs={24} key={index}>
@@ -58,9 +84,11 @@ function LandingPage() {
                 </div>
 
             }
-            <div className="landingPage__loadMore">
-                <button>Load More</button>
-            </div>
+            {PostSize >= Limit &&
+                <div className="landingPage__loadMore">
+                    <button onClick={onLoadMore}>Load More</button>
+                </div>
+            }
 
         </div>
     )

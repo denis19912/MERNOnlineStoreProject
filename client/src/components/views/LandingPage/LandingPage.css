@@ -14,7 +14,8 @@
     align-items: center;
 }
 
-.landingPage__showProducts {
+.landingPage__showProducts img{
+    object-fit: cover;
 }
 
 .landingPage__loadMore {
