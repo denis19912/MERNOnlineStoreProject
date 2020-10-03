@@ -71,7 +71,7 @@ router.post("/getProducts", (req, res) => {
         if (req.body.filters[key].length > 0) {
             if (key === "price") {
                 findArgs[key] = {
-                    $gre: req.body.filters[key][0],
+                    $gte: req.body.filters[key][0],
                     $lte: req.body.filters[key][1],
                 }
 
