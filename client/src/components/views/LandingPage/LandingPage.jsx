@@ -9,6 +9,7 @@ import CheckBox from './Sections/CheckBox';
 import RadioBox from './Sections/RadioBox';
 import { continents, price } from './Sections/Datas';
 import FileUpload from '../../utils/FileUpload';
+import SearchFeature from './Sections/SearchFeature';
 
 
 function LandingPage() {
@@ -18,7 +19,7 @@ function LandingPage() {
     const [PostSize, setPostSize] = useState(0);
     const [Filters, setFilters] = useState({ continents: [], price: [] });
     const [FilterOpen, setFilterOpen] = useState(['0']);
-
+    const [SearchTerms, setSearchTerms] = useState("");
 
     useEffect(() => {
         const variables = {
@@ -117,6 +118,19 @@ function LandingPage() {
         setFilters(newFilters)
     }
 
+    const updateSearchTerms = (newSearchTerm) => {
+        const variables = {
+            skip: 0,
+            limit: Limit,
+            filters: Filters,
+            searchTerm: newSearchTerm
+        };
+
+        setSearchTerms(newSearchTerm);
+        setSkip(0);
+        getProducts(variables);
+    }
+
 
     return (
         <div className="landingPage__container">
@@ -140,6 +154,11 @@ function LandingPage() {
                     />
                 </Col>
             </Row>
+            <div className="landingPage__searchFilter">
+                <SearchFeature
+                    refreshFunction={updateSearchTerms}
+                />
+            </div>
 
             {Products.length === 0 ?
                 <div className="landingPage__noProducts">
