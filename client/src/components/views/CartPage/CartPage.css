@@ -1,0 +1,15 @@
+.CartPage__container {
+    width: 85%;
+    max-width: 150rem;
+    margin: 3rem auto;
+}
+
+.CartPage__finish {
+    margin-top: 3rem;
+}
+
+.CartPage__products {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
