@@ -1,0 +1,11 @@
+.DetailProductPage__container {
+    width: 100%;
+    max-width: 150rem;
+    margin: 0 auto;
+    padding: 3rem 5rem;
+}
+
+.DetailProductPage__header {
+    display: flex;
+    justify-content: center;
+}

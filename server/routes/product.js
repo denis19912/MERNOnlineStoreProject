@@ -105,6 +105,27 @@ router.post("/getProducts", (req, res) => {
     }
 });
 
+/**
+ * Gets single product for product details page.
+ * ?id=${productId}&type=single
+ */
+router.get("/products_by_id", (req, res) => {
+    let type = req.query.type;
+    let productIds = req.query.id;
+
+    // If we have more Ids
+    if (type === 'array') {
+
+    }
+
+    // Find the product based on id.
+    Product.find({ '_id': { $in: productIds } })
+        .populate('writer')
+        .exec((err, product) => {
+            if (err) return req.status(400).send(err)
+            return res.status(200).send(product);
+        });
+});
 
 
 

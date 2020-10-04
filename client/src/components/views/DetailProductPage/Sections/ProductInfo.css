@@ -1,0 +1,24 @@
+.ProductInfo__spacer {
+    margin-top: 5rem;
+}
+
+.ProductInfo__addToCart {
+    display: flex;
+    justify-content: center;
+}
+
+table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    page-break-after: 0.8rem;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
