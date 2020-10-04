@@ -115,7 +115,11 @@ router.get("/products_by_id", (req, res) => {
 
     // If we have more Ids
     if (type === 'array') {
-
+        let ids = req.query.id.split(',');
+        productIds = [];
+        productIds = ids.map(item => {
+            return item;
+        })
     }
 
     // Find the product based on id.
