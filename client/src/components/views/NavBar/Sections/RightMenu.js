@@ -33,6 +33,9 @@ function RightMenu(props) {
   } else {
     return (
       <Menu mode={props.mode}>
+        <Menu.Item key="history">
+          <a href="/user/history">History</a>
+        </Menu.Item>
         <Menu.Item key="upload">
           <a href="/product/upload">
             <Icon type="upload" style={{ fontSize: 30, marginBottom: 0 }} />

@@ -1,0 +1,15 @@
+.HistoryPage__container {
+    width: 80%;
+    max-width: 150rem;
+    margin: 3rem auto;
+    text-align: center;
+}
+
+.HistoryPage__container h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.HistoryPage__container table, tr, td {
+    text-align: center;
+}
