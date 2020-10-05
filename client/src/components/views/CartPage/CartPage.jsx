@@ -9,10 +9,12 @@ import { Result, Empty } from 'antd';
 
 import './CartPage.css';
 import UserCardBlock from './Sections/UserCardBlock';
+import Axios from 'axios';
 function CartPage(props) {
     const dispatch = useDispatch();
     const [TotalPrice, setTotalPrice] = useState(0);
-
+    const [ShowTotal, setShowTotal] = useState(false);
+    const [ShowSuccess, setShowSuccess] = useState(false);
 
     useEffect(() => {
         let cartItems = [];
@@ -38,14 +40,35 @@ function CartPage(props) {
             total += parseInt(item.price) * item.quantity;
         })
         setTotalPrice(total);
+        setShowTotal(true);
     }
 
 
     const removeFromCart = (productId) => {
         dispatch(removeCartItem(productId))
-            .then(
-                console.log(productId)
-            )
+            .then(() => {
+                // if (props.user.cartDetail.length <= 0) {
+                //     setShowTotal(false);
+                // } else {
+                //     calculateTotal(props.user.cartDetail);
+                // }
+                /**
+                 * Hacky way to update total, since above code doesn't work...
+                 * Redux is probably to slow and can't calculate it in time...
+                 */
+                Axios.get('/api/users/userCartInfo')
+                    .then(response => {
+                        if (response.data.success) {
+                            if (response.data.cartDetail.length <= 0) {
+                                setShowTotal(false)
+                            } else {
+                                calculateTotal(response.data.cartDetail)
+                            }
+                        } else {
+                            alert("Failt to get cart data");
+                        }
+                    })
+            })
     }
 
     return (
@@ -57,17 +80,23 @@ function CartPage(props) {
                     removeItem={removeFromCart}
                 />
 
-                <div className="CartPage__finish">
-                    <h2>Total ammount: {TotalPrice}€</h2>
-                </div>
-                <Result
-                    status="success"
-                    title="Successfully Purchased Items"
-                />
-                <div className="CartPage__products">
-                    <Empty description={false} />
-                    <p>No items in the Cart!</p>
-                </div>
+                {
+                    ShowTotal ?
+                        <div className="CartPage__finish">
+                            <h2>Total ammount: {TotalPrice}€</h2>
+                        </div>
+                        :
+                        ShowSuccess ?
+                            <Result
+                                status="success"
+                                title="Successfully Purchased Items"
+                            />
+                            :
+                            <div className="CartPage__products">
+                                <Empty description={false} />
+                                <p>No items in the Cart!</p>
+                            </div>
+                }
             </div>
         </div>
     )
