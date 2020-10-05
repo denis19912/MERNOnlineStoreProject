@@ -7,6 +7,7 @@ import {
     ADD_TO_CART_USER,
     GET_CART_ITEMS_USER,
     REMOVE_CART_ITEM_USER,
+    ON_SUCCESS_BUY_USER,
 } from './types';
 import { USER_SERVER } from '../components/Config.js';
 
@@ -97,6 +98,13 @@ export function removeCartItem(productId) {
     return {
         type: REMOVE_CART_ITEM_USER,
         payload: request
+    }
+}
+
+export function onSuccessBuy(data) {
+    return {
+        type: ON_SUCCESS_BUY_USER,
+        payload: data
     }
 }
 

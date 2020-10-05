@@ -3,13 +3,15 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import {
     getCartItems,
-    removeCartItem
+    removeCartItem,
+    onSuccessBuy
 } from '../../../_actions/user_actions';
 import { Result, Empty } from 'antd';
 
 import './CartPage.css';
 import UserCardBlock from './Sections/UserCardBlock';
 import Axios from 'axios';
+import PayPal from '../../utils/PayPal';
 function CartPage(props) {
     const dispatch = useDispatch();
     const [TotalPrice, setTotalPrice] = useState(0);
@@ -71,6 +73,44 @@ function CartPage(props) {
             })
     }
 
+    /**
+     * When transaction succeedeed
+     */
+    const transactionSuccess = (data) => {
+        let variables = {
+            cartDetail: props.user.cartDetail,
+            paymentData: data
+        }
+        Axios.post('/api/users/successBuy', variables)
+            .then(response => {
+                if (response.data.success) {
+                    setShowSuccess(true);
+                    setShowTotal(false);
+
+                    dispatch(onSuccessBuy({
+                        cart: response.data.cart,
+                        cartDetail: response.data.cartDetail
+                    }))
+                } else {
+                    alert("Failed to buy");
+                }
+            });
+    }
+
+    /**
+     * Transaction cancel
+     */
+    const transactionCancel = () => {
+        console.log("Transaction cancel");
+    }
+
+    /**
+     * Transaction error
+     */
+    const transactionError = () => {
+        console.log("Transaction error");
+    }
+
     return (
         <div className="CartPage__container">
             <h1>My Cart</h1>
@@ -98,6 +138,16 @@ function CartPage(props) {
                             </div>
                 }
             </div>
+
+            {/* Paypal button */}
+            {ShowTotal &&
+                <PayPal
+                    toPay={TotalPrice} // Total ammount to pay
+                    onSuccess={transactionSuccess} // When transaction succedeed
+                    onCancel={transactionCancel}
+                    onError={transactionError}
+                />
+            }
         </div>
     )
 }

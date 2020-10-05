@@ -2,6 +2,7 @@
 /build
 /uploads
 dev.js
+.env
 
 
 
